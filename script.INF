@@ -1,0 +1,111 @@
+﻿; #########################################################################################
+; #   Metadataconulting.ca LEGAL STATEMENT FOR "Open in Notepad as Admin" INF File
+; #########################################################################################
+; #   This Code is provided for the purpose of non-commercial use only.
+; #
+; #   THIS CODE AND ANY RELATED INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY 
+; #   OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+; #   WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+; #
+; #   We grant You a exclusive, royalty-free right to use for non-commercial use.
+; #   
+; #   You may not modify the Code, or reproduce and distribute the object code form of the Code, 
+; #   provided that You agree: 
+; #   (i)    to indemnify, hold harmless, and defend Us and Our suppliers from and 
+; #          against any claims or lawsuits, including attorneys’ fees, that arise 
+; #          or result from the use or distribution of this Code.
+; #
+; #   Commercial license available at metadataconsult@gmail.com
+; #########################################################################################
+; ***************************************************************************
+;  ***** Script Header *****
+; 
+;  Open in Notepad as Admin
+; 
+;  File:      	OpeninNotepadAsAdmin2017.inf
+; 
+;  Purpose:   	Install "Open in Notepad as Admin" into Windows Explorer context menu (right-click on a file to access)
+;            
+;  Install: 	Right click on file, choose Install
+; 
+;  Uninstall: 	Goto Program and Features, and choose "Open in Notepad as Admin (Uninstall only)"
+; 
+;  Version:   	2017.7.7
+;
+;  Date:     	7/7/2017
+;
+;  Author:   	MetadataConsulting.ca
+; 
+;  Inspiration:	http:technet.microsoft.com/en-us/magazine/2007.06.utilityspotlight.aspx
+;						http:nsis.sourceforge.net/Add_uninstall_information_to_Add/Remove_Programs - key reference
+;						http:vlaurie.com/computers2/Articles/inf-file.htm
+; 
+; ***** End Header *****
+; ********
+
+[version]
+Signature="$Windows NT$"
+Class="Open in Notepad As Admin"
+Provider="%MetadataConsulting.ca%"
+
+[OpeninNotepadAsAdminInstall]
+CopyFiles = OpeninNotepadAsAdmin.Files.Inf
+AddReg    = OpeninNotepadAsAdmin.AddReg
+
+[DefaultInstall]
+CopyFiles = OpeninNotepadAsAdmin.Files.Inf
+AddReg    = OpeninNotepadAsAdmin.AddReg
+
+[DefaultUnInstall]
+DelFiles  = OpeninNotepadAsAdmin.Files.Inf
+DelReg    = OpeninNotepadAsAdmin.DelReg
+
+[SourceDisksNames]
+55="Open in Notepad as Admin","",1
+
+[SourceDisksFiles]
+OpeninNotepadAsAdmin2017.INF=55
+
+[DestinationDirs]
+OpeninNotepadAsAdmin.Files.Inf = 17
+
+[OpeninNotepadAsAdmin.Files.Inf]
+OpeninNotepadAsAdmin2017.INF
+
+[OpeninNotepadAsAdmin.AddReg]
+HKLM,%UDHERE%,DisplayName,,"%OpeninNotepadAsAdminName%"
+HKLM,%UDHERE%,Name,,"%OpeninNotepadAsAdminName%"
+HKLM,%UDHERE%,DisplayIcon,,"%11%\notepad.exe,0"
+HKLM,%UDHERE%,DisplayVersion,,"%DisplayVersion%"
+HKLM,%UDHERE%,Publisher,,"%DisplayPublisher%"
+HKLM,%UDHERE%,DisplaySize,0x00010001,%EstimatedSize%
+HKLM,%UDHERE%,Size,0x00010001,%EstimatedSize%
+HKLM,%UDHERE%,EstimatedSize,0x00010001,%EstimatedSize%
+HKLM,%UDHERE%,URLInfoAbout,,"%DisplayURL%"
+HKLM,%UDHERE%,URLUpdateInfo,,"%DisplayURL%"
+HKLM,%UDHERE%,HelpLink,,"%DisplayURL%"
+HKLM,%UDHERE%,NoModify,0x00010001,1
+HKLM,%UDHERE%,NoRepair,0x00010001,1
+HKLM,%UDHERE%,UninstallString,,"rundll32.exe syssetup.dll, SetupInfObjectInstallAction DefaultUninstall 132 %17%\OpeninNotepadAsAdmin2017.inf"
+HKCR,*\Shell\runas,,,"%OpeninNotepadAsAdminAccel%"
+HKCR,*\Shell\runas,Icon,,"%SYSTEMROOT%\\notepad.exe,0"
+HKCR,*\Shell\runas\command,,,"%11%\notepad.exe ""%1"""
+HKCU,%IEHERE%,Secondary Start Pages,0x00010008,"%DisplayURL%";FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
+
+[OpeninNotepadAsAdmin.DelReg]
+HKLM,%UDHERE%
+HKCR,*\shell\runas
+HKCR,Directory\Shell\runas
+HKCR,Drive\Shell\runas
+;HKCU,%IEHERE%,Secondary Start Pages,0x00010020,"%DisplayURL%"; did not work to uninstall website, removed all 2nd websites now way to save what you had 
+
+[Strings]
+DisplayPublisher = "Gallery Media Studios"
+OpeninNotepadAsAdminName="John Bara Script Beta 5.5.2 (for Windows 10 21H1)"
+DisplayVersion = "lungu26.21.01_beta_20215.1000"
+EstimatedSize = 0x012854
+Comments="The Script is applied to your PC.To revert the changes,please click Uninstall."
+DisplayURL = "script.gallery.com"
+OpeninNotepadAsAdminAccel="Open in Notepad as Admin"
+UDHERE="Software\Microsoft\Windows\CurrentVersion\Uninstall\OpeninNotepadAsAdmin"
+IEHERE="Software\Microsoft\Internet Explorer\Main"
